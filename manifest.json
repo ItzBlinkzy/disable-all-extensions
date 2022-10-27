@@ -1,7 +1,7 @@
 {
     "name": "Disable All Extensions",
     "manifest_version": 3,
-    "version": "1.0.0",
+    "version": "1.1.0",
     "description": "Disable/Enable all installed chrome extensions with the click of a button.",
     "permissions": [
         "contextMenus",
@@ -11,6 +11,13 @@
     "background": {
         "service_worker": "./src/background.js"
     },
-    "action": {},
+    "icons": {
+        "16": "./public/icon_16.png",
+        "48": "./public/icon_48.png",
+        "128": "./public/icon_128.png"
+    },
+    "action": {
+        "default_icon": "./public/icon_128.png"
+    },
     "author": "Blinkzy"
 }

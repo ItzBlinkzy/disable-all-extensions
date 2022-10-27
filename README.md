@@ -18,4 +18,4 @@ _Made this in a day because I was bored and wanted to try and make an extension,
 _I may upload this to the Chrome Web Store depending on how much more work is done on the extension._
 ## Credits
 * [ItzBlinkzy](https://github.com/ItzBlinkzy)
-* [Agent421](https://github.com) (for the idea)
+* [Agent421](https://github.com/Agent421) (for the idea)
