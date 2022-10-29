@@ -57,7 +57,6 @@ chrome.action.onClicked.addListener(async (tab) => {
     else {
         disableAllExtensions(extensionList) 
         appIsEnabled = true
-        await chrome.action.setIcon({path: {"16": "../public/icon_16.png"}}
-        )
+        await chrome.action.setIcon({path: {"16": "../public/icon_16.png"}})
     }
 })

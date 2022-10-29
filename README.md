@@ -3,7 +3,7 @@ This Chrome extension allows you to disable or enable all your extensions at onc
 
 
 ## How To Use
-* Clone the github repo
+* Clone the github repo.
 ```bash
 $ git clone https://github.com/ItzBlinkzy/disable-all-extensions.git
 ```
