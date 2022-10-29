@@ -1,31 +1,32 @@
 let appIsEnabled = false
 
 /**
- * Disables all Extensions from a given Array
+ * Disables all Extensions from a given Array of objects.
  * @param {Object[]} extensionsList 
  */
-const disableAllExtensions = async (extensionList) => {
+const disableAllExtensions = (extensionList) => {
 
     for (const ext of extensionList) {
         // if extension isn't itself then disable the extension
 
         if (ext.id !== chrome.runtime.id) {
             // disable each extension
-            await chrome.management.setEnabled(ext.id, false)
+            chrome.management.setEnabled(ext.id, false)
         }
 
     }
 }
 
 /**
+ * Enables extensions from a given Array of objects.
  * @param {Object[]} extensionsList
  */
 
-const enableExtensions = async (extensionList) => {
+const enableExtensions = (extensionList) => {
     
     for (const ext of extensionList) {
         // enable each extension
-        await chrome.management.setEnabled(ext.id, true)
+        chrome.management.setEnabled(ext.id, true)
     }
 }
 
@@ -34,7 +35,7 @@ const enableExtensions = async (extensionList) => {
 /**
  * Get enabled and disable extensions from an array of extension objects.
  * @param {Array}
- * @returns {Object<Object>} returns an object with enabledExtensions and disabledExtensions
+ * @returns {Object} returns an object with enabledExtensions and disabledExtensions
  */
 const allExtensionInfo = (extensionList) => {
     const enabledExts = extensionList.filter(ext => ext.enabled === true)
@@ -55,8 +56,8 @@ chrome.action.onClicked.addListener(async (tab) => {
 
         // retrieve the last stored enabled extensions and re-enable them
 
-        await chrome.storage.sync.get(["lastEnabledExts"], async (exts) => {
-            await enableExtensions(exts.lastEnabledExts)
+        chrome.storage.local.get(["lastEnabledExts"], async (exts) => {
+            enableExtensions(exts.lastEnabledExts)
             appIsEnabled = false
 
             // change icon to OFF state
@@ -69,8 +70,8 @@ chrome.action.onClicked.addListener(async (tab) => {
 
         // Save the currently enabled extensions before disabling all extensions.
 
-        await chrome.storage.sync.set({lastEnabledExts: enabledExts}, async () => {
-            await disableAllExtensions(extensionList) 
+        chrome.storage.local.set({lastEnabledExts: enabledExts}, async () => {
+            disableAllExtensions(extensionList) 
             appIsEnabled = true
 
             // change icon to ON state
