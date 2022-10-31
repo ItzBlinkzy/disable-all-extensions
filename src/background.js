@@ -38,8 +38,8 @@ const enableExtensions = (extensionList) => {
  * @returns {Object} returns an object with enabledExtensions and disabledExtensions
  */
 const allExtensionInfo = (extensionList) => {
-    const enabledExts = extensionList.filter(ext => ext.enabled === true)
-    const disabledExts = extensionList.filter(ext => ext.enabled === false)
+    const enabledExts = extensionList.filter(ext => ext.enabled === true && ext.type === "extension")
+    const disabledExts = extensionList.filter(ext => ext.enabled === false && ext.type === "extension")
 
     return { enabledExts, disabledExts }
 }
@@ -50,7 +50,6 @@ chrome.action.onClicked.addListener(async (tab) => {
     const extensionList = await chrome.management.getAll()
     // Divide them into enabled and disabled extensions.
     const {enabledExts, disabledExts} = allExtensionInfo(extensionList)
-    
     // if the extension isnt currently running
     if (appIsEnabled) {
 
