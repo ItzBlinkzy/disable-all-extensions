@@ -1,5 +1,3 @@
-let isDisablingOtherExts = false
-
 /**
  * Disables all Extensions from a given Array of objects.
  * @param {Object[]} extensionsList 
@@ -17,11 +15,11 @@ const disableAllExtensions = (extensionList) => {
     }
 }
 
+
 /**
  * Enables extensions from a given Array of objects.
  * @param {Object[]} extensionsList
  */
-
 const enableExtensions = (extensionList) => {
     
     for (const ext of extensionList) {
@@ -29,7 +27,6 @@ const enableExtensions = (extensionList) => {
         chrome.management.setEnabled(ext.id, true)
     }
 }
-
 
 
 /**
@@ -45,35 +42,49 @@ const allExtensionInfo = (extensionList) => {
 }
 
 
-// Get the last state of the application if it was used before
-chrome.storage.local.get(["lastState"], ({lastState}) => {
-    isDisablingOtherExts = lastState || isDisablingOtherExts
+/**
+ * Updates to the relevant icons based on the applicationState
+ */
+const updateIconState = () => {
 
-    // Set icon to the current extension state before use.
-    if (isDisablingOtherExts) {
-        chrome.action.setIcon({path: {"16": "../public/appOn_16.png"}})
-    }
-    else {
-        chrome.action.setIcon({path: {"16": "../public/appOff_16.png"}})
-    }
-    
-    chrome.action.onClicked.addListener(async (tab) => {
+    chrome.storage.local.get(["isDisablingOtherExts"], async ({isDisablingOtherExts}) => {
+        if (isDisablingOtherExts) {
+            await chrome.action.setIcon({path: {"16": "../public/appOn_16.png"}})
+        }
+        else {
+            await chrome.action.setIcon({path: {"16": "../public/appOff_16.png"}})
+        }
+    })
+}
+
+
+// Update the icon in case the update button is pressed from extensions page
+updateIconState()
+
+// Run everytime extension is started and listener prevents service-worker from being inactive on startup
+chrome.runtime.onStartup.addListener(() => {
+    updateIconState()
+})
+
+chrome.action.onClicked.addListener((tab) => {
+
+    chrome.storage.local.get(["isDisablingOtherExts"], async ({isDisablingOtherExts}) => {
         // Get information on all the currently added extensions
         const extensionList = await chrome.management.getAll()
         // Divide them into enabled and disabled extensions.
         const {enabledExts, disabledExts} = allExtensionInfo(extensionList)
         // If this extension is currently disabling other extensions.
         if (isDisablingOtherExts) {
-    
+
             // retrieve the last stored enabled extensions and re-enable them
             chrome.storage.local.get(["lastEnabledExts"], async (exts) => {
                 enableExtensions(exts.lastEnabledExts)
-                isDisablingOtherExts = false
+
                 // Save the state in the case extension is turned off.
-                chrome.storage.local.set({lastState: isDisablingOtherExts}, () => {})
+                chrome.storage.local.set({isDisablingOtherExts: false}, () => {})
     
                 // change icon to OFF state
-                await chrome.action.setIcon({path: {"16": "../public/appOff_16.png"}})
+                updateIconState()
             })
         }
     
@@ -81,15 +92,15 @@ chrome.storage.local.get(["lastState"], ({lastState}) => {
         else {
     
             // Save the currently enabled extensions before disabling all extensions.
-
+    
             chrome.storage.local.set({lastEnabledExts: enabledExts}, async () => {
                 disableAllExtensions(extensionList) 
-                isDisablingOtherExts = true
+
                 // Save the state in the case extension is turned off.
-                chrome.storage.local.set({lastState: isDisablingOtherExts}, () => {})
+                chrome.storage.local.set({isDisablingOtherExts: true}, () => {})
                 
                 // change icon to ON state
-                await chrome.action.setIcon({path: {"16": "../public/appOn_16.png"}})
+                updateIconState()
             })
         }
     })
