@@ -61,12 +61,13 @@ const updateIconState = () => {
 // Update the icon in case the update button is pressed from extensions page
 updateIconState()
 
-// Run everytime extension is started and listener prevents service-worker from being inactive on startup
+// Run everytime a new chrome window is started and listener prevents service-worker from being inactive on startup
 chrome.runtime.onStartup.addListener(() => {
     updateIconState()
 })
 
-chrome.action.onClicked.addListener((tab) => {
+
+chrome.action.onClicked.addListener(() => {
 
     chrome.storage.local.get(["isDisablingOtherExts"], async ({isDisablingOtherExts}) => {
         // Get information on all the currently added extensions
@@ -77,8 +78,8 @@ chrome.action.onClicked.addListener((tab) => {
         if (isDisablingOtherExts) {
 
             // retrieve the last stored enabled extensions and re-enable them
-            chrome.storage.local.get(["lastEnabledExts"], async (exts) => {
-                enableExtensions(exts.lastEnabledExts)
+            chrome.storage.local.get(["lastEnabledExts"], async ({lastEnabledExts}) => {
+                enableExtensions(lastEnabledExts)
 
                 // Save the state in the case extension is turned off.
                 chrome.storage.local.set({isDisablingOtherExts: false}, () => {})
