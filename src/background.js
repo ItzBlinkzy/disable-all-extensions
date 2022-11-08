@@ -12,6 +12,7 @@ chrome.runtime.onStartup.addListener(() => {
     updateIconState()
 })
 
+
 chrome.action.onClicked.addListener((tab) => {
 
     chrome.storage.local.get(["isDisablingOtherExts"], async ({isDisablingOtherExts}) => {
@@ -53,6 +54,16 @@ chrome.action.onClicked.addListener((tab) => {
 })
 
 
+// Create the context menu once the extension is installed.
+chrome.runtime.onInstalled.addListener(() => {
+    chrome.contextMenus.create({
+        title: "Open whitelist",
+        contexts: ["all"], // change to only work on toolbar
+        id: CTX_MENU_IDS.whitelistID,
+    })   
+})
+
+
 // Handling contextMenu clicks
 chrome.contextMenus.onClicked.addListener((data) => {
     const {menuItemId, pageUrl} = data
@@ -62,14 +73,4 @@ chrome.contextMenus.onClicked.addListener((data) => {
             url: "../public/index.html"
         })
     }
-})
-
-// Create the context menu once the extension is installed.
-chrome.runtime.onInstalled.addListener(() => {
-    chrome.contextMenus.create({
-        title: "Open whitelist",
-        contexts: ["all"], // change to only work on toolbar
-        id: CTX_MENU_IDS.whitelistID,
-        
-    })   
 })

@@ -35,9 +35,25 @@ const enableExtensions = (extensionList) => {
  * @returns {Object} returns an object with enabledExtensions and disabledExtensions
  */
 const allExtensionInfo = (extensionList) => {
-    const enabledExts = extensionList.filter(ext => ext.enabled === true && ext.type === "extension")
-    const disabledExts = extensionList.filter(ext => ext.enabled === false && ext.type === "extension")
+    // const enabledExts = extensionList.filter(ext => ext.enabled === true && ext.type === "extension")
+    // const disabledExts = extensionList.filter(ext => ext.enabled === false && ext.type === "extension")
+    const enabledExts = []
+    const disabledExts = []
 
+    for (const ext of extensionList) {
+
+        if (ext.type === "extension") {
+            const {description, enabled, id, icons, name} = ext
+
+            if (enabled) {
+                enabledExts.push({description, enabled, id, icons, name})
+            }
+
+            else {
+                disabledExts.push({description, enabled, id, icons, name})
+            }
+        }
+    }
     return { enabledExts, disabledExts }
 }
 
@@ -49,10 +65,10 @@ const updateIconState = () => {
 
     chrome.storage.local.get(["isDisablingOtherExts"], async ({isDisablingOtherExts}) => {
         if (isDisablingOtherExts) {
-            await chrome.action.setIcon({path: {"16": "../public/appOn_16.png"}})
+            await chrome.action.setIcon({path: {"16": "../public/images/appOn_16.png"}})
         }
         else {
-            await chrome.action.setIcon({path: {"16": "../public/appOff_16.png"}})
+            await chrome.action.setIcon({path: {"16": "../public/images/appOff_16.png"}})
         }
     })
 }

@@ -10,7 +10,8 @@ const handleClick = () => {
 (async () => {
     const extensionList = await chrome.management.getAll()
     const {enabledExts, disabledExts} = allExtensionInfo(extensionList)
-    console.log({enabledExts}, {disabledExts})
+    
+    console.log(enabledExts)
 })() 
 
 
