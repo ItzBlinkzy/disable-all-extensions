@@ -13,7 +13,7 @@ chrome.runtime.onStartup.addListener(() => {
 })
 
 
-chrome.action.onClicked.addListener((tab) => {
+chrome.action.onClicked.addListener(() => {
 
     chrome.storage.local.get(["isDisablingOtherExts"], async ({isDisablingOtherExts}) => {
         // Get information on all the currently added extensions
@@ -24,11 +24,11 @@ chrome.action.onClicked.addListener((tab) => {
         if (isDisablingOtherExts) {
 
             // retrieve the last stored enabled extensions and re-enable them
-            chrome.storage.local.get(["lastEnabledExts"], async ({lastEnabledExts}) => {
+            chrome.storage.local.get(["lastEnabledExts"], ({lastEnabledExts}) => {
                 enableExtensions(lastEnabledExts)
 
                 // Save the state in the case extension is turned off.
-                chrome.storage.local.set({isDisablingOtherExts: false}, () => {})
+                chrome.storage.local.set({isDisablingOtherExts: false})
     
                 // change icon to OFF state
                 updateIconState()
@@ -40,11 +40,11 @@ chrome.action.onClicked.addListener((tab) => {
     
             // Save the currently enabled extensions before disabling all extensions.
     
-            chrome.storage.local.set({lastEnabledExts: enabledExts}, async () => {
+            chrome.storage.local.set({lastEnabledExts: enabledExts}, () => {
                 disableAllExtensions(extensionList) 
 
                 // Save the state in the case extension is turned off.
-                chrome.storage.local.set({isDisablingOtherExts: true}, () => {})
+                chrome.storage.local.set({isDisablingOtherExts: true})
                 
                 // change icon to ON state
                 updateIconState()
