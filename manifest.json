@@ -6,10 +6,12 @@
     "permissions": [
         "contextMenus",
         "management",
-        "storage"
+        "storage",
+        "tabs"
     ],
     "background": {
-        "service_worker": "./src/background.js"
+        "service_worker": "./src/background.js",
+        "type": "module"
     },
     "icons": {
         "16": "./public/appOn_16.png",
@@ -17,7 +19,8 @@
         "128": "./public/appOn_128.png"
     },
     "action": {
-        "default_icon": "./public/appOff_16.png"
+        "default_icon": "./public/appOff_16.png",
+        "default-popup": "./public/index.html"
     },
     "author": "Blinkzy"
 }
