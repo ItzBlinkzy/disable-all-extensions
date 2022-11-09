@@ -35,8 +35,6 @@ const enableExtensions = (extensionList) => {
  * @returns {Object} returns an object with enabledExtensions and disabledExtensions
  */
 const allExtensionInfo = (extensionList) => {
-    // const enabledExts = extensionList.filter(ext => ext.enabled === true && ext.type === "extension")
-    // const disabledExts = extensionList.filter(ext => ext.enabled === false && ext.type === "extension")
     const enabledExts = []
     const disabledExts = []
 
