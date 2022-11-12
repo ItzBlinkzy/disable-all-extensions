@@ -6,7 +6,7 @@ const handleClick = async (e) => {
     const extensionId = e.target.id
 
 
-    chrome.storage.sync.get(["alwaysOn"], async ({alwaysOn}) => {
+    chrome.storage.sync.get("alwaysOn", async ({alwaysOn}) => {
         alwaysOn = alwaysOn || []
         
         // Save the extension id that was checked.
@@ -29,7 +29,8 @@ const handleClick = async (e) => {
 
 (async () => {
 
-    chrome.storage.sync.get(["alwaysOn"], async ({alwaysOn}) => {
+    chrome.storage.sync.get("alwaysOn", async ({alwaysOn}) => {
+        console.log({alwaysOn})
         alwaysOn = alwaysOn || []
         const extensionList = await chrome.management.getAll()
         const extensionElement = document.getElementById("extension-list")

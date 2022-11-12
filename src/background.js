@@ -14,7 +14,7 @@ chrome.runtime.onStartup.addListener(() => {
 
 
 chrome.action.onClicked.addListener(() => {
-    chrome.storage.sync.get(["alwaysOn"], ({alwaysOn}) => {
+    chrome.storage.sync.get("alwaysOn", ({alwaysOn}) => {
         chrome.storage.local.get(async ({isDisablingOtherExts, lastEnabledExts}) => {
             // In the case that this property is undefined, set to empty array.
             alwaysOn = alwaysOn || []
