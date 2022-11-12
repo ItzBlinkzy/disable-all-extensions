@@ -22,5 +22,6 @@
         "default_icon": "./public/images/appOff_16.png",
         "default-popup": "./public/index.html"
     },
+    "key": "disableallextensions",
     "author": "Blinkzy"
 }
