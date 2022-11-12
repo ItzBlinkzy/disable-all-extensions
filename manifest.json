@@ -1,23 +1,26 @@
 {
     "name": "Disable All Extensions",
     "manifest_version": 3,
-    "version": "1.3.4",
+    "version": "1.4",
     "description": "Disable/Enable your chrome extensions with the click of a button.",
     "permissions": [
         "contextMenus",
         "management",
-        "storage"
+        "storage",
+        "tabs"
     ],
     "background": {
-        "service_worker": "./src/background.js"
+        "service_worker": "./src/background.js",
+        "type": "module"
     },
     "icons": {
-        "16": "./public/appOn_16.png",
-        "48": "./public/appOn_48.png",
-        "128": "./public/appOn_128.png"
+        "16": "./public/images/appOn_16.png",
+        "48": "./public/images/appOn_48.png",
+        "128": "./public/images/appOn_128.png"
     },
     "action": {
-        "default_icon": "./public/appOff_16.png"
+        "default_icon": "./public/images/appOff_16.png",
+        "default-popup": "./public/index.html"
     },
     "author": "Blinkzy"
 }
