@@ -29,7 +29,7 @@ const handleClick = async (e) => {
 
 (async () => {
 
-    chrome.storage.local.get(["alwaysOn"], async ({alwaysOn}) => {
+    chrome.storage.sync.get(["alwaysOn"], async ({alwaysOn}) => {
         alwaysOn = alwaysOn || []
         const extensionList = await chrome.management.getAll()
         const extensionElement = document.getElementById("extension-list")
