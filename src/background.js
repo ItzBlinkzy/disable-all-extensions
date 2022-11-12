@@ -15,9 +15,13 @@ chrome.runtime.onStartup.addListener(() => {
 
 chrome.action.onClicked.addListener(() => {
 
-    chrome.storage.local.get(async ({isDisablingOtherExts, lastEnabledExts}) => {
-        // Get information on all the currently added extensions	
+    chrome.storage.local.get(async ({isDisablingOtherExts, lastEnabledExts, alwaysOn}) => {
+        // In the case that this property is undefined, set to empty array.
+        alwaysOn = alwaysOn || []
+        // Get information on all the currently added extensions.	
         const extensionList = await chrome.management.getAll()	
+        // Extensions that are not whitelisted.
+        const notWhitelistedExts = extensionList.filter(e => !alwaysOn.includes(e.id))
         // Divide them into enabled and disabled extensions.	
         const {enabledExts, disabledExts} = allExtensionInfo(extensionList)	
         // If this extension is currently disabling other extensions.	
@@ -36,8 +40,8 @@ chrome.action.onClicked.addListener(() => {
     
             // Save the currently enabled extensions before disabling all extensions.
     
-            chrome.storage.local.set({lastEnabledExts: enabledExts}, () => {
-                disableAllExtensions(extensionList) 
+            chrome.storage.local.set({lastEnabledExts: enabledExts}, () => { 
+                disableAllExtensions(notWhitelistedExts) 
 
                 // Save the state in the case extension is turned off.
                 chrome.storage.local.set({isDisablingOtherExts: true})

@@ -1,29 +1,37 @@
-import { allExtensionInfo } from "../src/utils/functions.js"
 
-
-const handleClick = (e) => {
+// Listener for when any checkbox is clicked.
+const handleClick = async (e) => {
     // e.preventDefault()
-    const {checkedVal, id: extensionId} = e.target
+    const checkedVal = e.target.checked
+    const extensionId = e.target.id
 
-    
 
-    chrome.storage.local.get(["alwaysOn"], async ({alwaysOn}) => {
+    chrome.storage.sync.get(["alwaysOn"], async ({alwaysOn}) => {
+        alwaysOn = alwaysOn || []
+        
+        // Save the extension id that was checked.
         if (checkedVal) {
-            chrome.storage.local.set({alwaysOn: []})
+            alwaysOn.push(extensionId)
+            chrome.storage.sync.set({alwaysOn: alwaysOn})
+        }
+
+
+        else {
+            // Find the extension id that was unchecked and remove it from storage.
+            const extIndex = alwaysOn.findIndex(id => id === extensionId)
+
+            alwaysOn.splice(extIndex, 1)
+            chrome.storage.sync.set({alwaysOn: alwaysOn})
         }
     })
-    // extensionbutton.onclick set extension id in alwaysOn
-    // alwaysOn: [{name: "U-Block Origin", id: ksjbsbuisbsiuvsuibsivubsvnsnskdskjvnsdnk}] set using chrome storage
 }
 
 
 (async () => {
 
-    chrome.storage.local.get(["alwaysOn"], async () => {
-        
+    chrome.storage.local.get(["alwaysOn"], async ({alwaysOn}) => {
+        alwaysOn = alwaysOn || []
         const extensionList = await chrome.management.getAll()
-        const {enabledExts, disabledExts} = allExtensionInfo(extensionList)
-    
         const extensionElement = document.getElementById("extension-list")
 
 
@@ -37,11 +45,19 @@ const handleClick = (e) => {
                 const inputEl = document.createElement("input")
                 inputEl.setAttribute("type", "checkbox")
                 inputEl.setAttribute("id", ext.id)
-                // inputEl.setAttribute("checked") - Make a check using chrome.local.storage to see if it is already part of whitelisted ext array of ids
+
+
+                // If extension is in the alwaysOn array then pre-check the box
+                if (alwaysOn.includes(ext.id)) {
+                    inputEl.setAttribute("checked", "checked")
+                }
+
+
                 inputEl.onclick = handleClick
 
                 const labelEl = document.createElement("label")
                 labelEl.textContent = ext.name
+
                 div.appendChild(inputEl)
                 div.appendChild(labelEl)
 
