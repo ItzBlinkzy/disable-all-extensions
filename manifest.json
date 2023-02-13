@@ -1,27 +1,22 @@
 {
-    "name": "Disable All Extensions",
-    "manifest_version": 3,
-    "version": "1.4.3",
-    "description": "Disable/Enable your chrome extensions with the click of a button.",
-    "permissions": [
-        "contextMenus",
-        "management",
-        "storage",
-        "tabs"
-    ],
-    "background": {
-        "service_worker": "./src/background.js",
-        "type": "module"
-    },
-    "icons": {
-        "16": "./public/images/appOn_16.png",
-        "48": "./public/images/appOn_48.png",
-        "128": "./public/images/appOn_128.png"
-    },
-    "action": {
-        "default_icon": "./public/images/appOff_16.png",
-        "default-popup": "./public/index.html"
-    },
-    "key": "disableallextensions",
-    "author": "Blinkzy"
+  "name": "Disable All Extensions",
+  "manifest_version": 3,
+  "version": "1.4.3",
+  "description": "Disable/Enable your chrome extensions with the click of a button.",
+  "permissions": ["contextMenus", "management", "storage"],
+  "background": {
+    "service_worker": "./src/background.js",
+    "type": "module"
+  },
+  "icons": {
+    "16": "./public/images/appOn_16.png",
+    "48": "./public/images/appOn_48.png",
+    "128": "./public/images/appOn_128.png"
+  },
+  "action": {
+    "default_icon": "./public/images/appOff_16.png",
+    "default-popup": "./public/index.html"
+  },
+  "key": "disableallextensions",
+  "author": "Blinkzy"
 }
