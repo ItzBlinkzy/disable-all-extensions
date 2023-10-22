@@ -1,0 +1,83 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto");
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: rgba(255, 8, 8, 0.781);
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: rgba(255, 216, 216, 0.493);
+  font-family: "Roboto", sans-serif;
+  font-size: 1em;
+}
+
+input[type="checkbox"] {
+  appearance: none;
+}
+
+.toggle-pill-bw input[type="checkbox"] + label {
+  display: block;
+  position: relative;
+  width: 3em;
+  height: 1.6em;
+  margin-bottom: 20px;
+  background: #50565a;
+  border-radius: 1em;
+  border: 1px solid black;
+  cursor: pointer;
+  -webkit-transition: background 0.1s ease-in-out;
+  transition: background 0.1s ease-in-out;
+}
+
+.toggle-pill-bw input[type="checkbox"]:checked + label {
+  background: #47cf73;
+  transition: background 0.1s ease-in-out;
+}
+
+.toggle-pill-bw input[type="checkbox"] + label:before {
+  content: "";
+  display: block;
+  width: 1.2em;
+  height: 1.2em;
+  border-radius: 1em;
+  background: #f7f2f2;
+  position: absolute;
+  left: 0.2em;
+  top: 0.2em;
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
+.toggle-pill-bw input[type="checkbox"]:checked + label:before {
+  left: 1.6em;
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+.toggle-pill-bw {
+  height: 3.5em;
+  width: 3.5em;
+}
+
+.toggle-pill-bw .test {
+  justify-content: center;
+  background-color: red;
+  align-items: center;
+}
+.item {
+  display: flex;
+  margin-top: 0 0 0 0;
+  width: auto;
+}
+
+.item p {
+  padding-top: 0.3em;
+}
+#extension-list {
+  display: grid;
+  grid-template-columns:repeat(3, 1fr);
+}

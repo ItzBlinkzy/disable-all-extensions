@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="isolation.css" />
+    <script type="module" src="./isolation.js" defer></script>
+    <script type="module" src="./utils/functions.js" defer></script>
+    <title>Isolate Extensions</title>
+  </head>
+  <body>
+    <header>
+      <h1>Isolate Extensions</h1>
+    </header>
+    <main>
+      <p>Start Isolation Mode to identify problematic extensions.</p>
+      <p>
+        Isolation Mode will divide your extensions into two halves and enable
+        one group at a time. After each test, you'll provide feedback to enable
+        or disable the tested extensions. The process will continue, halving the
+        active extensions until only one extension remains.
+      </p>
+      <button id="isolationBtn">Start Isolation Mode</button>
+    </main>
+  </body>
+</html>

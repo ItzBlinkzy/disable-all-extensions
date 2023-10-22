@@ -33,8 +33,7 @@ const handleClick = async (e) => {
         alwaysOn = alwaysOn || []
         const extensionList = await chrome.management.getAll()
         const extensionElement = document.getElementById("extension-list")
-
-
+        extensionList.sort((a, b) => a.name.localeCompare(b.name))
         for (const ext of extensionList) {
             // Every extension but itself.
             if (ext.id !== chrome.runtime.id && ext.type === "extension") {
