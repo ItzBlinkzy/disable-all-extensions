@@ -34,7 +34,7 @@ const isolationBtn = document.getElementById("isolationBtn")
   isolationBtn.addEventListener("click", async () => {
     console.log("Clicked.")
     if (isRunning) {
-      // Set back to original state.
+      // Set extensions back to original state.
       isRunning = !isRunning
       return
     }
@@ -54,28 +54,34 @@ const isolationBtn = document.getElementById("isolationBtn")
 
 function isolationMode(extensionList, step=0) {
   console.log(`Isolation Mode running in step ${step}`)
+  // Completed
   if (extensionList.length == 1) {
-    return extensionList[0]
+    isRunning = !isRunning
+    return extensionList[0];
   }
   const halfIndex = Math.floor(extensionList.length / 2);
-  const firstHalf = extensionList.slice(0, halfIndex);
-  const secondHalf = extensionList.slice(halfIndex);
+  // Split the extensions into two halves.
+  const half1 = extensionList.slice(0, halfIndex);
+  const half2 = extensionList.slice(halfIndex);
+
+  const [biggerHalf, smallerHalf] = [half1, half2].sort((a, b) => b.length - a.length)
   console.log("---------------- All Extensions in this step. ---------------")
   console.log(getExtensionNames(extensionList))
-  console.log("----------------- FIRST HALF -------------------")
-  console.log(getExtensionNames(firstHalf))
-  console.log("----------------- SECOND HALF -------------------")
-  console.log(getExtensionNames(secondHalf))
+  console.log("----------------- BIGGER HALF -------------------")
+  console.log(getExtensionNames(biggerHalf))
+  console.log("----------------- SMALLER HALF -------------------")
+  console.log(getExtensionNames(smallerHalf))
 
-  // Isolate and enable the first half of extensions.
-  // enableExtensions(firstHalf)
-  const response = getUserFeedback(firstHalf)
-  // if true problematic extension is in firstHalf
+
+  // Isolate and enable the biggerHalf of the extension list.
+  // enableExtensions(biggerHalf)
+  const response = getUserFeedback(biggerHalf)
+  // if true problematic extension is in biggerHalf
   if (response) {
-    return isolationMode(firstHalf, step+1)
+    return isolationMode(biggerHalf, step+1)
   }
   else {
-    return isolationMode(secondHalf, step+1)
+    return isolationMode(smallerHalf, step+1)
   }
 }
 

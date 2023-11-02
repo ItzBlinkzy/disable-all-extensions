@@ -94,5 +94,25 @@ const updateIconState = () => {
   })
 }
 
+/**
+ * 
+ * Debounce a function with certain amount of MS
+ */
 
-export {disableExtensions, enableExtensions, allExtensionInfo, updateIconState}
+function debounce(func, delay) {
+  let timerId;
+
+  return function () {
+    const context = this;
+    const args = arguments;
+
+    clearTimeout(timerId);
+    timerId = setTimeout(function () {
+      func.apply(context, args);
+    }, delay);
+  };
+}
+
+
+
+export {disableExtensions, enableExtensions, allExtensionInfo, updateIconState, debounce}

@@ -2,6 +2,7 @@ import {allExtensionInfo, updateIconState, enableExtensions, debounce, disableEx
 
 const CTX_MENU_IDS = {
     whitelistID: "open-whitelist",
+    isolationID: "isolation"
 }
 
 // Update the icon in case the update button is pressed from extensions page
@@ -64,6 +65,12 @@ chrome.runtime.onInstalled.addListener(() => {
         contexts: ["all"], // change to only work on toolbar
         id: CTX_MENU_IDS.whitelistID,
     })   
+
+    chrome.contextMenus.create({
+      title: "Isolation Mode",
+      contexts: ["all"],
+      id: CTX_MENU_IDS.isolationID
+    })
 })
 
 
@@ -75,5 +82,10 @@ chrome.contextMenus.onClicked.addListener((data) => {
         chrome.tabs.create({
             url: "../public/index.html"
         })
+    }
+    else if (menuItemId === CTX_MENU_IDS.isolationID) {
+      chrome.tabs.create({
+        url: "../public/isolation.html"
+      })
     }
 })
