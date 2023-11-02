@@ -26,6 +26,9 @@
  * @param {Object[]} extensionsList 
  */
 const disableExtensions = (extensionList) => {
+  if (!extensionList?.length) {
+    return
+  }
 
   for (const ext of extensionList) {
       // if extension isn't itself then disable the extension
@@ -34,7 +37,6 @@ const disableExtensions = (extensionList) => {
           // disable each extension
           chrome.management.setEnabled(ext.id, false)
       }
-
   }
 }
 
@@ -44,7 +46,10 @@ const disableExtensions = (extensionList) => {
 * @param {Object[]} extensionsList
 */
 const enableExtensions = (extensionList) => {
-  
+  if (!extensionList?.length) {
+    return
+  }
+
   for (const ext of extensionList) {
       // enable each extension
       chrome.management.setEnabled(ext.id, true)

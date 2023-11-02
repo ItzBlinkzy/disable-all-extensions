@@ -4,6 +4,7 @@ const CTX_MENU_IDS = {
     whitelistID: "open-whitelist",
     isolationID: "isolation"
 }
+let isolationTabId;
 
 // Update the icon in case the update button is pressed from extensions page
 updateIconState()
@@ -86,6 +87,21 @@ chrome.contextMenus.onClicked.addListener((data) => {
     else if (menuItemId === CTX_MENU_IDS.isolationID) {
       chrome.tabs.create({
         url: "../public/isolation.html"
+      }, (tab) => {
+        isolationTabId = tab.id
       })
     }
 })
+
+chrome.tabs.onRemoved.addListener(async (tabId, removeInfo) => {
+  console.log({tabId, isolationTabId}, tabId === isolationTabId)
+  // Tab closed was isolationMode tab
+  if (tabId === isolationTabId) {
+    const enabledExts = await chrome.storage.local.get("lastEnabledExts")
+    const disabledExts = await chrome.storage.local.get("lastDisabledExts")
+    console.log({enabledExts, disabledExts})
+    // Return to previous extension state before isolation mode started.
+    enableExtensions(enabledExts)
+    disableExtensions(disabledExts)
+  }
+ })
