@@ -138,14 +138,10 @@ isolationBtn.addEventListener("click", async () => {
     const result = await isolationMode(extensions)
     console.log("COMPLETED ISOLATION MODE!!!")
     console.log("Found problematic extension", result.shortName)
-    console.log("huhhh?")
     customDialog.style.display = "block";
     confirmYes.style.display = "none"
     confirmNo.style.display = "none"
     dialogMessage.textContent = `The extension possibly causing issues is: ${result.shortName}`
-    console.log("aobut to renable the stuff")
     enableExtensions(enabledExts)
     disableExtensions(disabledExts)
-    console.log("running~???")
-    // Prompt the user to either delete this extension, try isolation mode again or exit.
 })
