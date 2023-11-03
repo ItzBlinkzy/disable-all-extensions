@@ -24,15 +24,6 @@ import { disableExtensions, enableExtensions, allExtensionInfo, updateIconState}
  * @property {string} version
  */
 
-let isRunning = false;
-
-// Get all extensions excluding itself.
-const extensions = (await chrome.management.getAll()).filter(ext => ext.id !== chrome.runtime.id)
-// Get currently enabled and disabled extensions revert to original state (excluding itself).
-const {enabledExts, disabledExts} = allExtensionInfo(extensions)
-// Set extensions state to local storage in the case the window is closed
-await chrome.storage.local.set({lastEnabledExts: enabledExts, lastDisabledExts: disabledExts})
-
 
 /**
    * 
@@ -41,7 +32,7 @@ await chrome.storage.local.set({lastEnabledExts: enabledExts, lastDisabledExts: 
    * @returns {TExtension}
 */
 
-function isolationMode(extensionList, step=0) {
+async function isolationMode(extensionList, step=0) {
   console.log(`Isolation Mode running in step ${step}`)
   // Completed isolation mode
   if (extensionList.length == 1) {
@@ -67,7 +58,7 @@ function isolationMode(extensionList, step=0) {
   // Isolate and enable only the biggerHalf of the extension list.
   enableExtensions(biggerHalf)
   disableExtensions(smallerHalf)
-  const response = getUserFeedback(biggerHalf)
+  const response = await getUserFeedback(biggerHalf)
   // Disable the previously enabled extensions to prepare for the next step.
   disableExtensions(biggerHalf)
   // if response is true problematic extension is in biggerHalf
@@ -86,13 +77,31 @@ function isolationMode(extensionList, step=0) {
  * @returns {boolean}
 */
 
-function getUserFeedback(firstHalf) {
+async function getUserFeedback(firstHalf) {
   const formattedStrExt = getExtensionNames(firstHalf).join(", ")
   if (firstHalf.length === 1) {
-    return confirm(`Is this extension causing you issues? Test it and come back.\n${formattedStrExt}`,)
+    // return confirm(`Is this extension causing you issues? Test it and come back.\n${formattedStrExt}`,)
+    dialogMessage.textContent = `Is this extension causing you issues? Test it and come back.\n${formattedStrExt}`;
+  }
+  else {
+    dialogMessage.textContent = `Are one of these extensions still causing you issues?\nTest it and come back.\n${formattedStrExt}`;
   }
 
-  return confirm(`Are one of these extensions still causing you issues?\nTest it and come back.\n${formattedStrExt}`)
+  return new Promise((resolve) => {
+    customDialog.style.display = "block";
+
+    confirmYes.addEventListener("click", () => {
+      customDialog.style.display = "none";
+      resolve(true);
+    });
+
+    confirmNo.addEventListener("click", () => {
+      customDialog.style.display = "none";
+      resolve(false);
+    });
+  });
+
+  // return confirm(`Are one of these extensions still causing you issues?\nTest it and come back.\n${formattedStrExt}`)
 }
 
 function getExtensionNames(extList) {
@@ -100,18 +109,43 @@ function getExtensionNames(extList) {
 }
 
 const isolationBtn = document.getElementById("isolationBtn")
-  isolationBtn.addEventListener("click", async () => {
+const customDialog = document.getElementById("custom-dialog");
+const dialogBox = document.getElementById("dialog-box");
+const dialogMessage = document.getElementById("dialog-message");
+const confirmYes = document.getElementById("confirm-yes");
+const confirmNo = document.getElementById("confirm-no");
+
+let isRunning = false;
+
+// Get all extensions excluding itself.
+const extensions = (await chrome.management.getAll()).filter(ext => ext.id !== chrome.runtime.id)
+// Get currently enabled and disabled extensions revert to original state (excluding itself).
+const {enabledExts, disabledExts} = allExtensionInfo(extensions)
+// Set extensions state to local storage in the case the window is closed
+await chrome.storage.local.set({lastEnabledExts: enabledExts, lastDisabledExts: disabledExts})
+
+isolationBtn.addEventListener("click", async () => {
     console.log("Clicked.")
     if (isRunning) {
       // Set extensions back to original state.
       isRunning = !isRunning
       return
     }
+    dialogBox.style.display = "block"
+
     isRunning = !isRunning
     console.log("Starting isolation Mode.")
-    const result = isolationMode(extensions)
+    const result = await isolationMode(extensions)
+    console.log("COMPLETED ISOLATION MODE!!!")
     console.log("Found problematic extension", result.shortName)
+    console.log("huhhh?")
+    customDialog.style.display = "block";
+    confirmYes.style.display = "none"
+    confirmNo.style.display = "none"
+    dialogMessage.textContent = `The extension possibly causing issues is: ${result.shortName}`
+    console.log("aobut to renable the stuff")
     enableExtensions(enabledExts)
     disableExtensions(disabledExts)
+    console.log("running~???")
     // Prompt the user to either delete this extension, try isolation mode again or exit.
-  })
+})
