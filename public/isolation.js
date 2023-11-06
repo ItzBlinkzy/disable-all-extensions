@@ -78,14 +78,45 @@ async function isolationMode(extensionList, step=0) {
 */
 
 async function getUserFeedback(firstHalf) {
-  const formattedStrExt = getExtensionNames(firstHalf).join(", ")
   if (firstHalf.length === 1) {
-    // return confirm(`Is this extension causing you issues? Test it and come back.\n${formattedStrExt}`,)
-    dialogMessage.textContent = `Is this extension causing you issues? Test it and come back.\n${formattedStrExt}`;
+    dialogMessage.textContent = `This extension has been enabled\n Are you still having issues?`;
+  } else {
+    dialogMessage.textContent = `These extensions have been enabled.\nAre you still having issues?`;
   }
-  else {
-    dialogMessage.textContent = `Are one of these extensions still causing you issues?\nTest it and come back.\n${formattedStrExt}`;
-  }
+
+  // Create a container div to hold the extension information
+  const extensionContainer = document.createElement('div');
+  extensionContainer.classList.add('extension-container');
+
+  // Add individual divs for each extension with name and icon
+  firstHalf.forEach(extension => {
+    const extensionDiv = document.createElement('div');
+
+    // Create an img tag for the extension icon
+    extensionDiv.style.display = "flex"
+    extensionDiv.style.gap = "0.2em"
+    const iconImg = document.createElement('img');
+    iconImg.src = extension.icons[0].url;
+    iconImg.alt = 'Extension Icon';
+
+    iconImg.style.width = "25px";
+    iconImg.style.height = "25px"
+
+
+    // Create a div to display the extension name
+    const nameDiv = document.createElement('div');
+    nameDiv.textContent = extension.name;
+
+    // Append the img and name divs to the extensionDiv
+    extensionDiv.appendChild(iconImg);
+    extensionDiv.appendChild(nameDiv);
+
+    // Append the extensionDiv to the extensionContainer
+    extensionContainer.appendChild(extensionDiv);
+  });
+
+  // Append the extensionContainer to the dialogMessage
+  dialogMessage.appendChild(extensionContainer);
 
   return new Promise((resolve) => {
     customDialog.style.display = "block";
@@ -100,9 +131,9 @@ async function getUserFeedback(firstHalf) {
       resolve(false);
     });
   });
-
-  // return confirm(`Are one of these extensions still causing you issues?\nTest it and come back.\n${formattedStrExt}`)
 }
+
+
 
 function getExtensionNames(extList) {
   return extList.map(ext => ext.shortName)
@@ -112,9 +143,9 @@ const isolationBtn = document.getElementById("isolationBtn")
 const customDialog = document.getElementById("custom-dialog");
 const dialogBox = document.getElementById("dialog-box");
 const dialogMessage = document.getElementById("dialog-message");
-const confirmYes = document.getElementById("confirm-yes");
-const confirmNo = document.getElementById("confirm-no");
-
+const confirmButtons = document.getElementById("confirm-buttons")
+const confirmYes = document.getElementById("confirm-yes")
+const confirmNo = document.getElementById("confirm-no")
 let isRunning = false;
 
 // Get all extensions excluding itself.
@@ -126,22 +157,35 @@ await chrome.storage.local.set({lastEnabledExts: enabledExts, lastDisabledExts: 
 
 isolationBtn.addEventListener("click", async () => {
     console.log("Clicked.")
+    isolationBtn.style.disabled = true
     if (isRunning) {
       // Set extensions back to original state.
       isRunning = !isRunning
       return
     }
+    confirmButtons.style.display = "flex"
     dialogBox.style.display = "block"
+    confirmYes.style.display = "block"
+    confirmNo.style.display = "block"
 
     isRunning = !isRunning
     console.log("Starting isolation Mode.")
     const result = await isolationMode(extensions)
+
     console.log("COMPLETED ISOLATION MODE!!!")
     console.log("Found problematic extension", result.shortName)
+
     customDialog.style.display = "block";
-    confirmYes.style.display = "none"
-    confirmNo.style.display = "none"
+    confirmButtons.style.display = "flex"
     dialogMessage.textContent = `The extension possibly causing issues is: ${result.shortName}`
+    
     enableExtensions(enabledExts)
     disableExtensions(disabledExts)
+})
+// Show a prompt to the use
+window.addEventListener("beforeunload", (e) => {
+  e.preventDefault()
+  if (isRunning) {
+    e.returnValue = true
+  }
 })

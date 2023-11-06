@@ -51,3 +51,6 @@ button {
 button:hover {
   background-color: #555;
 }
+#confirm-buttons {
+  gap: 1em;
+}
