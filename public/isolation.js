@@ -79,7 +79,7 @@ async function isolationMode(extensionList, step=0) {
 
 async function getUserFeedback(firstHalf) {
   if (firstHalf.length === 1) {
-    dialogMessage.textContent = `This extension has been enabled\n Are you still having issues?`;
+    dialogMessage.textContent = `This extension has been enabled.\n Are you still having issues?`;
   } else {
     dialogMessage.textContent = `These extensions have been enabled.\nAre you still having issues?`;
   }
@@ -136,10 +136,10 @@ async function getUserFeedback(firstHalf) {
 
 
 function getExtensionNames(extList) {
-  return extList.map(ext => ext.shortName)
+  return extList.map(ext => ext.name)
 }
 
-const isolationBtn = document.getElementById("isolationBtn")
+const isolationBtn = document.getElementById("isolation-btn")
 const customDialog = document.getElementById("custom-dialog");
 const dialogBox = document.getElementById("dialog-box");
 const dialogMessage = document.getElementById("dialog-message");
@@ -157,6 +157,7 @@ await chrome.storage.local.set({lastEnabledExts: enabledExts, lastDisabledExts: 
 
 isolationBtn.addEventListener("click", async () => {
     console.log("Clicked.")
+    confirmYes.textContent = "Yes"
     isolationBtn.style.disabled = true
     if (isRunning) {
       // Set extensions back to original state.
@@ -173,11 +174,13 @@ isolationBtn.addEventListener("click", async () => {
     const result = await isolationMode(extensions)
 
     console.log("COMPLETED ISOLATION MODE!!!")
-    console.log("Found problematic extension", result.shortName)
+    console.log("Found problematic extension", result.name)
 
     customDialog.style.display = "block";
     confirmButtons.style.display = "flex"
-    dialogMessage.textContent = `The extension possibly causing issues is: ${result.shortName}`
+    confirmYes.textContent = "Continue"
+    confirmNo.style.display = "none"
+    dialogMessage.textContent = `The extension possibly causing issues is: ${result.name}`
     
     enableExtensions(enabledExts)
     disableExtensions(disabledExts)
