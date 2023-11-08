@@ -1,4 +1,3 @@
-
 // Listener for when any checkbox is clicked.
 const handleClick = async (e) => {
     // e.preventDefault()
@@ -8,6 +7,9 @@ const handleClick = async (e) => {
 
     chrome.storage.sync.get("alwaysOn", async ({alwaysOn}) => {
         alwaysOn = alwaysOn || []
+
+        // Enable the extension if it's disabled.
+        chrome.management.setEnabled(extensionId, true)
         
         // Save the extension id that was checked.
         if (checkedVal) {
@@ -19,9 +21,11 @@ const handleClick = async (e) => {
         else {
             // Find the extension id that was unchecked and remove it from storage.
             const extIndex = alwaysOn.findIndex(id => id === extensionId)
-
             alwaysOn.splice(extIndex, 1)
             chrome.storage.sync.set({alwaysOn: alwaysOn})
+
+            // Disable the extension in the case it's currently on.
+            chrome.management.setEnabled(extensionId, false)
         }
     })
 }

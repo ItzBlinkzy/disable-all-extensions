@@ -77,7 +77,8 @@ input[type="checkbox"] {
 .item p {
   padding-top: 0.3em;
 }
+
 #extension-list {
   display: grid;
-  grid-template-columns:repeat(3, 1fr);
+  grid-template-columns: repeat(3, 1fr);
 }
