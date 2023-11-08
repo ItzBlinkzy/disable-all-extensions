@@ -5,29 +5,25 @@ p {
   margin: 0;
   padding: 0;
 }
+@import url("https://fonts.googleapis.com/css?family=Roboto");
 
 body {
-  font-family: "Arial", sans-serif;
-  background-color: #f5f5f5;
+  font-family: "Roboto", sans-serif;
+  background-color: rgba(255, 216, 216, 0.493);
 }
 
 header {
-  background-color: #333;
-  color: #fff;
-  padding: 1rem 0;
+  color: red;
+  padding: 1.5em;
 }
 
 h1 {
   font-size: 2rem;
-  margin-bottom: 1rem;
 }
 
 main {
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 4px;
-  padding: 2rem;
-  margin: 1rem auto;
+  padding: 1.5em;
   max-width: 800px;
 }
 
@@ -51,6 +47,11 @@ button {
 button:hover {
   background-color: #555;
 }
+
 #confirm-buttons {
   gap: 1em;
+}
+
+#isolation-btn {
+  margin: 0.25em;
 }
