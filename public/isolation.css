@@ -1,0 +1,57 @@
+/* Reset some default styles */
+body,
+h1,
+p {
+  margin: 0;
+  padding: 0;
+}
+@import url("https://fonts.googleapis.com/css?family=Roboto");
+
+body {
+  font-family: "Roboto", sans-serif;
+  background-color: rgba(255, 216, 216, 0.493);
+}
+
+header {
+  color: red;
+  padding: 1.5em;
+}
+
+h1 {
+  font-size: 2rem;
+}
+
+main {
+  border-radius: 4px;
+  padding: 1.5em;
+  max-width: 800px;
+}
+
+p {
+  font-size: 1.1rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+button {
+  background-color: #333;
+  color: #fff;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #555;
+}
+
+#confirm-buttons {
+  gap: 1em;
+}
+
+#isolation-btn {
+  margin: 0.25em;
+}
