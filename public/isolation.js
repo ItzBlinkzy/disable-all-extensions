@@ -185,10 +185,3 @@ isolationBtn.addEventListener("click", async () => {
     enableExtensions(enabledExts)
     disableExtensions(disabledExts)
 })
-// Show a prompt to the use
-window.addEventListener("beforeunload", (e) => {
-  e.preventDefault()
-  if (isRunning) {
-    e.returnValue = true
-  }
-})
