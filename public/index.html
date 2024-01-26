@@ -1,30 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <script type="module" src="./whitelist.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <title>Whitelist</title>
-</head>
-<body>
-    <h1>Whitelist extensions</h1>
-    <br>
-    This page will allow you to whitelist extensions and keep them <strong>Always On</strong>.
-    <p>Whitelist certain extensions by toggling the switch. If the switch is on, "<strong>Disable All Extensions</strong>" will not turn the extension off.</p>
-    <br>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="index.css" />
+    <title>Whitelist Extensions</title>
+  </head>
+  <body>
+    <h1>Manage Your Whitelisted Extensions</h1>
+    <div>
+      <p>
+        If you're encountering issues with an unfamiliar extension, you can enable
+        <a href="./isolation.html"><span id="isolation">Isolation Mode</span></a>
+        for further control.
+      </p>
+    </div>
+    <p>
+      This page allows you to whitelist extensions and keep them running
+      <strong>Always On</strong>.
+    </p>
+    <p>
+      You can whitelist specific extensions by toggling the switch. When the switch
+      is on, "<strong>Disable All Extensions</strong>" will not disable the extension.
+    </p>
+    <br />
     <h2>Extensions</h2>
     <div id="extension-list">
-
-        <!-- Template for JS
-        <div class="item">
-            <div class="toggle-pill-bw">
-              <input type="checkbox" id="extensionidhere" name="check">
-              <label for="extensionidhere"></label>
-            </div>
-            <p>Extension Name Here</p>
-          </div> -->
+      <!-- Template for Extensions -->
+      <!--
+      <div class="item">
+        <div class="toggle-pill-bw">
+          <input type="checkbox" id="extensionidhere" name="check">
+          <label for="extensionidhere"></label>
+        </div>
+        <p>Extension Name Here</p>
+      </div>
+      -->
     </div>
-</body>
+  </body>
 </html>
