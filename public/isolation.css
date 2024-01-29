@@ -55,3 +55,9 @@ button:hover {
 #isolation-btn {
   margin: 0.25em;
 }
+
+#dialog-message {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}

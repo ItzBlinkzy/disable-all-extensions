@@ -36,7 +36,6 @@ async function isolationMode(extensionList, step=0) {
   console.log(`Isolation Mode running in step ${step}`)
   // Completed isolation mode
   if (extensionList.length == 1) {
-    isRunning = !isRunning
     return extensionList[0];
   }
 
@@ -96,7 +95,7 @@ async function getUserFeedback(firstHalf) {
     extensionDiv.style.display = "flex"
     extensionDiv.style.gap = "0.2em"
     const iconImg = document.createElement('img');
-    iconImg.src = extension.icons[0].url;
+    iconImg.src = extension?.icons[0]?.url || "./images/chrome-32.png";
     iconImg.alt = 'Extension Icon';
 
     iconImg.style.width = "25px";
@@ -134,7 +133,6 @@ async function getUserFeedback(firstHalf) {
 }
 
 
-
 function getExtensionNames(extList) {
   return extList.map(ext => ext.name)
 }
@@ -146,7 +144,6 @@ const dialogMessage = document.getElementById("dialog-message");
 const confirmButtons = document.getElementById("confirm-buttons")
 const confirmYes = document.getElementById("confirm-yes")
 const confirmNo = document.getElementById("confirm-no")
-let isRunning = false;
 
 // Get all extensions excluding itself.
 const extensions = (await chrome.management.getAll()).filter(ext => ext.id !== chrome.runtime.id)
@@ -156,32 +153,37 @@ const {enabledExts, disabledExts} = allExtensionInfo(extensions)
 await chrome.storage.local.set({lastEnabledExts: enabledExts, lastDisabledExts: disabledExts})
 
 isolationBtn.addEventListener("click", async () => {
-    console.log("Clicked.")
     confirmYes.textContent = "Yes"
-    isolationBtn.style.disabled = true
-    if (isRunning) {
-      // Set extensions back to original state.
-      isRunning = !isRunning
-      return
-    }
+    isolationBtn.style.display = "none"
     confirmButtons.style.display = "flex"
     dialogBox.style.display = "block"
     confirmYes.style.display = "block"
     confirmNo.style.display = "block"
 
-    isRunning = !isRunning
     console.log("Starting isolation Mode.")
     const result = await isolationMode(extensions)
 
-    console.log("COMPLETED ISOLATION MODE!!!")
+    console.log("Isolation Mode complete.")
     console.log("Found problematic extension", result.name)
 
     customDialog.style.display = "block";
     confirmButtons.style.display = "flex"
-    confirmYes.textContent = "Continue"
-    confirmNo.style.display = "none"
-    dialogMessage.textContent = `The extension possibly causing issues is: ${result.name}`
+
+    dialogMessage.innerHTML = `
+    <div>
+        <span>
+          <p>The extension possibly causing issues is: 
+          <img src=${result?.icons[0]?.url || "./images/chrome-32.png"} width="25" height="25">
+          <strong>${result.name}</strong>
+          </p>
+        </span>
+    </div>`
+
+    isolationBtn.style.display = "block"
     
+    confirmYes.style.display = "none"
+    confirmNo.style.display = "none"
+
     enableExtensions(enabledExts)
     disableExtensions(disabledExts)
 })
