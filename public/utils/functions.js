@@ -57,28 +57,55 @@ const enableExtensions = (extensionList) => {
 }
 
 
+// /**
+// * Get enabled and disable extensions from an array of extension objects.
+// * @param {Array}
+// * @returns {Object} returns an object with enabledExtensions and disabledExtensions
+// */
+// const allExtensionInfo = (extensionList) => {
+//   const enabledExts = []
+//   const disabledExts = []
+
+//   for (const ext of extensionList) {
+
+//       if (ext.type === "extension") {
+//           const {description, enabled, id, icons, name} = ext
+
+//           if (enabled) {
+//               enabledExts.push({description, enabled, id, icons, name})
+//           }
+
+//           else {
+//               disabledExts.push({description, enabled, id, icons, name})
+//           }
+//       }
+//   }
+//   return { enabledExts, disabledExts }
+// }
+
 /**
-* Get enabled and disable extensions from an array of extension objects.
-* @param {Array}
-* @returns {Object} returns an object with enabledExtensions and disabledExtensions
-*/
-const allExtensionInfo = (extensionList) => {
+ * 
+ * @param
+  * @returns {Object} returns an object with enabledExtensions and disabledExtensions
+ */
+
+const getExtensionStateById = (extensionList) => {
+  
   const enabledExts = []
   const disabledExts = []
-
   for (const ext of extensionList) {
 
-      if (ext.type === "extension") {
-          const {description, enabled, id, icons, name} = ext
+    if (ext.type === "extension") {
+        const { enabled, id} = ext
 
-          if (enabled) {
-              enabledExts.push({description, enabled, id, icons, name})
-          }
+        if (enabled) {
+            enabledExts.push({id})
+        }
 
-          else {
-              disabledExts.push({description, enabled, id, icons, name})
-          }
-      }
+        else {
+            disabledExts.push({id})
+        }
+    }
   }
   return { enabledExts, disabledExts }
 }
@@ -120,4 +147,4 @@ function debounce(func, delay) {
 
 
 
-export {disableExtensions, enableExtensions, allExtensionInfo, updateIconState, debounce}
+export {disableExtensions, enableExtensions, updateIconState, debounce, getExtensionStateById }

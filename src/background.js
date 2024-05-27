@@ -1,4 +1,4 @@
-import {allExtensionInfo, updateIconState, enableExtensions, debounce, disableExtensions} from "../public/utils/functions.js"
+import {updateIconState, enableExtensions, debounce, disableExtensions, getExtensionStateById} from "../public/utils/functions.js"
 
 const CTX_MENU_IDS = {
     whitelistID: "open-whitelist",
@@ -27,6 +27,21 @@ chrome.storage.onChanged.addListener(async (changes, namespace) => {
       }
     }
   }
+
+  chrome.storage.sync.get(null, (items) => {
+    const jsonString = JSON.stringify(items);
+    const jsonSize = new Blob([jsonString]).size;
+
+    console.log('chrome.storage.sync data:', items);
+    console.log('Size of JSON data:', jsonSize / 1000, 'KB');
+
+    for (const [key, value] of Object.entries(items)) {
+      const keyJsonString = JSON.stringify(value);
+      const keyJsonSize = new Blob([keyJsonString]).size;
+
+      console.log(`Size of JSON data for key "${key}":`, keyJsonSize / 1000, 'KB');
+    }
+  });  
 });
 
 
@@ -40,7 +55,7 @@ const handleToggleExtensions = () => {
         // Extensions that are not whitelisted.
         const notWhitelistedExts = extensionList.filter(e => !alwaysOn.includes(e.id))
         // Divide them into enabled and disabled extensions.	
-        const {enabledExts, disabledExts} = allExtensionInfo(extensionList)	
+        const {enabledExts, disabledExts} = getExtensionStateById(extensionList)	
         // If this extension is currently disabling other extensions.	
         if (isDisablingOtherExts) {	
                 enableExtensions(lastEnabledExts)	
@@ -55,7 +70,7 @@ const handleToggleExtensions = () => {
         else {
     
             // Save the currently enabled extensions before disabling all extensions.
-            chrome.storage.local.set({lastEnabledExts: enabledExts}, () => { 
+            chrome.storage.sync.set({lastEnabledExts: enabledExts}, () => { 
                 disableExtensions(notWhitelistedExts) 
 
                 // Save the state in the case extension is turned off.
@@ -113,8 +128,8 @@ chrome.tabs.onRemoved.addListener(async (tabId, removeInfo) => {
   console.log({tabId, isolationTabId}, tabId === isolationTabId)
   // Tab closed was isolationMode tab
   if (tabId === isolationTabId) {
-    const enabledExts = await chrome.storage.local.get("lastEnabledExts")
-    const disabledExts = await chrome.storage.local.get("lastDisabledExts")
+    const enabledExts = await chrome.storage.sync.get("lastEnabledExts")
+    const disabledExts = await chrome.storage.sync.get("lastDisabledExts")
     console.log({enabledExts, disabledExts})
     // Return to previous extension state before isolation mode started.
     enableExtensions(enabledExts)
