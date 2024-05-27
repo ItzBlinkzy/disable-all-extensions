@@ -1,4 +1,4 @@
-import { disableExtensions, enableExtensions, allExtensionInfo, updateIconState} from "./utils/functions.js";
+import { disableExtensions, enableExtensions, updateIconState, getExtensionStateById} from "./utils/functions.js";
 
 // Type definitions.
 /** 
@@ -148,9 +148,9 @@ const confirmNo = document.getElementById("confirm-no")
 // Get all extensions excluding itself.
 const extensions = (await chrome.management.getAll()).filter(ext => ext.id !== chrome.runtime.id)
 // Get currently enabled and disabled extensions revert to original state (excluding itself).
-const {enabledExts, disabledExts} = allExtensionInfo(extensions)
+const {enabledExts, disabledExts} = getExtensionStateById(extensions)
 // Set extensions state to local storage in the case the window is closed
-await chrome.storage.local.set({lastEnabledExts: enabledExts, lastDisabledExts: disabledExts})
+await chrome.storage.sync.set({lastEnabledExts: enabledExts, lastDisabledExts: disabledExts})
 
 isolationBtn.addEventListener("click", async () => {
     confirmYes.textContent = "Yes"
