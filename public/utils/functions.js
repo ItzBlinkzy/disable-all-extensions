@@ -56,33 +56,6 @@ const enableExtensions = (extensionList) => {
   }
 }
 
-
-// /**
-// * Get enabled and disable extensions from an array of extension objects.
-// * @param {Array}
-// * @returns {Object} returns an object with enabledExtensions and disabledExtensions
-// */
-// const allExtensionInfo = (extensionList) => {
-//   const enabledExts = []
-//   const disabledExts = []
-
-//   for (const ext of extensionList) {
-
-//       if (ext.type === "extension") {
-//           const {description, enabled, id, icons, name} = ext
-
-//           if (enabled) {
-//               enabledExts.push({description, enabled, id, icons, name})
-//           }
-
-//           else {
-//               disabledExts.push({description, enabled, id, icons, name})
-//           }
-//       }
-//   }
-//   return { enabledExts, disabledExts }
-// }
-
 /**
  * 
  * @param

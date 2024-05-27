@@ -28,20 +28,22 @@ chrome.storage.onChanged.addListener(async (changes, namespace) => {
     }
   }
 
-  chrome.storage.sync.get(null, (items) => {
-    const jsonString = JSON.stringify(items);
-    const jsonSize = new Blob([jsonString]).size;
+  // Storage debugging for chrome synchronization.
 
-    console.log('chrome.storage.sync data:', items);
-    console.log('Size of JSON data:', jsonSize / 1000, 'KB');
+  // chrome.storage.sync.get(null, (items) => {
+  //   const jsonString = JSON.stringify(items);
+  //   const jsonSize = new Blob([jsonString]).size;
 
-    for (const [key, value] of Object.entries(items)) {
-      const keyJsonString = JSON.stringify(value);
-      const keyJsonSize = new Blob([keyJsonString]).size;
+  //   console.log('chrome.storage.sync data:', items);
+  //   console.log('Size of JSON data:', jsonSize / 1000, 'KB');
 
-      console.log(`Size of JSON data for key "${key}":`, keyJsonSize / 1000, 'KB');
-    }
-  });  
+  //   for (const [key, value] of Object.entries(items)) {
+  //     const keyJsonString = JSON.stringify(value);
+  //     const keyJsonSize = new Blob([keyJsonString]).size;
+
+  //     console.log(`Size of JSON data for key "${key}":`, keyJsonSize / 1000, 'KB');
+  //   }
+  // });  
 });
 
 
