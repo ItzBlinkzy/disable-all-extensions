@@ -14,6 +14,22 @@ chrome.runtime.onStartup.addListener(() => {
     updateIconState()
 })
 
+chrome.storage.onChanged.addListener(async (changes, namespace) => {
+  for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
+    // Check to see if icon was clicked, to change the icon on any device.
+    if (key === 'isDisablingOtherExts') {
+      // app now disabling extensions
+      if (newValue) {
+        await chrome.action.setIcon({path: {"16": "../public/images/appOn_16.png"}})
+      }
+      else {
+        await chrome.action.setIcon({path: {"16": "../public/images/appOff_16.png"}})
+      }
+    }
+  }
+});
+
+
 const handleToggleExtensions = () => {
   chrome.storage.sync.get("alwaysOn", ({alwaysOn}) => {
     chrome.storage.sync.get(async ({isDisablingOtherExts, lastEnabledExts}) => {
