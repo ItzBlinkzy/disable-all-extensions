@@ -1,11 +1,12 @@
 ![Logo](https://github.com/ItzBlinkzy/disable-all-extensions/assets/68260779/4d658427-ba25-4588-b3a4-ea5c6e165b81)
+
 # [Disable All Extensions](https://chrome.google.com/webstore/detail/disable-all-extensions/ailfldpmpboolaihojfagmmfbhcgohne)
 
 This Chrome extension allows you to disable or enable all your extensions at once **with the click of a button** (because Chrome doesn't have this for some reason).
 
+# Install from Chrome Store (3K+ Users)
 
-# Install from Chrome Store (2K+ Users)
-* Download [here](https://chrome.google.com/webstore/detail/disable-all-extensions/ailfldpmpboolaihojfagmmfbhcgohne)
+- Download [here](https://chrome.google.com/webstore/detail/disable-all-extensions/ailfldpmpboolaihojfagmmfbhcgohne)
 
 ## Download locally
 
