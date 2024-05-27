@@ -16,7 +16,7 @@ chrome.runtime.onStartup.addListener(() => {
 
 const handleToggleExtensions = () => {
   chrome.storage.sync.get("alwaysOn", ({alwaysOn}) => {
-    chrome.storage.local.get(async ({isDisablingOtherExts, lastEnabledExts}) => {
+    chrome.storage.sync.get(async ({isDisablingOtherExts, lastEnabledExts}) => {
         // In the case that this property is undefined, set to empty array.
         alwaysOn = alwaysOn || []
         // Get information on all the currently added extensions.	
@@ -29,7 +29,7 @@ const handleToggleExtensions = () => {
         if (isDisablingOtherExts) {	
                 enableExtensions(lastEnabledExts)	
                 // Save the state in the case extension is turned off.	
-                chrome.storage.local.set({isDisablingOtherExts: false}, () => {})	
+                chrome.storage.sync.set({isDisablingOtherExts: false}, () => {})	
         
                 // change icon to OFF state	
                 updateIconState()	
@@ -43,7 +43,7 @@ const handleToggleExtensions = () => {
                 disableExtensions(notWhitelistedExts) 
 
                 // Save the state in the case extension is turned off.
-                chrome.storage.local.set({isDisablingOtherExts: true})
+                chrome.storage.sync.set({isDisablingOtherExts: true})
                 
                 // change icon to ON state
                 updateIconState()

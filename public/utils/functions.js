@@ -89,7 +89,7 @@ const allExtensionInfo = (extensionList) => {
 */
 const updateIconState = () => {
 
-  chrome.storage.local.get(["isDisablingOtherExts"], async ({isDisablingOtherExts}) => {
+  chrome.storage.sync.get(["isDisablingOtherExts"], async ({isDisablingOtherExts}) => {
       if (isDisablingOtherExts) {
           await chrome.action.setIcon({path: {"16": "../public/images/appOn_16.png"}})
       }
