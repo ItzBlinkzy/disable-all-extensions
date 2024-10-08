@@ -31,12 +31,14 @@ const disableExtensions = (extensionList) => {
   }
 
   for (const ext of extensionList) {
+    // Only disable extensions and not any themes etc.
+    if (ext.type === "extension") {
       // if extension isn't itself then disable the extension
-
       if (ext.id !== chrome.runtime.id) {
           // disable each extension
           chrome.management.setEnabled(ext.id, false)
       }
+    }
   }
 }
 
@@ -51,8 +53,10 @@ const enableExtensions = (extensionList) => {
   }
 
   for (const ext of extensionList) {
-      // enable each extension
-      chrome.management.setEnabled(ext.id, true)
+      if (ext.type === "extension") {
+        // enable each extension
+        chrome.management.setEnabled(ext.id, true)
+      }
   }
 }
 
@@ -68,6 +72,7 @@ const getExtensionStateById = (extensionList) => {
   const disabledExts = []
   for (const ext of extensionList) {
 
+    // Only disable extensions and not any themes etc.
     if (ext.type === "extension") {
         const { enabled, id} = ext
 
