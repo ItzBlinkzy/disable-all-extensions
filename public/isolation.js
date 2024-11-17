@@ -1,7 +1,7 @@
 import { disableExtensions, enableExtensions, updateIconState, getExtensionStateById} from "./utils/functions.js";
 
 // Type definitions.
-/** 
+/**
  * @typedef {object} TExtension
  * @property {string} description
  * @property {boolean} enabled
@@ -24,11 +24,10 @@ import { disableExtensions, enableExtensions, updateIconState, getExtensionState
  * @property {string} version
  */
 
-
 /**
-   * 
+   *
    * @param {TExtension[]}
-   * @param {number} step 
+   * @param {number} step
    * @returns {TExtension}
 */
 
@@ -43,7 +42,7 @@ async function isolationMode(extensionList, step=0) {
   // Split the extensions into two halves.
   const half1 = extensionList.slice(0, halfIndex);
   const half2 = extensionList.slice(halfIndex);
-  
+
   // Retreiving the bigger and smaller sizes for less steps to occur during isolation.
   const [biggerHalf, smallerHalf] = [half1, half2].sort((a, b) => b.length - a.length)
   console.log("---------------- All Extensions in this step. ---------------")
@@ -52,8 +51,8 @@ async function isolationMode(extensionList, step=0) {
   console.log(getExtensionNames(biggerHalf))
   console.log("----------------- SMALLER HALF -------------------")
   console.log(getExtensionNames(smallerHalf))
-  
-  
+
+
   // Isolate and enable only the biggerHalf of the extension list.
   enableExtensions(biggerHalf)
   disableExtensions(smallerHalf)
@@ -95,7 +94,7 @@ async function getUserFeedback(firstHalf) {
     extensionDiv.style.display = "flex"
     extensionDiv.style.gap = "0.2em"
     const iconImg = document.createElement('img');
-    iconImg.src = extension?.icons[0]?.url || "./images/chrome-32.png";
+    iconImg.src = extension?.icons?.[0]?.url || "./images/chrome-32.png";
     iconImg.alt = 'Extension Icon';
 
     iconImg.style.width = "25px";
@@ -180,7 +179,7 @@ isolationBtn.addEventListener("click", async () => {
     </div>`
 
     isolationBtn.style.display = "block"
-    
+
     confirmYes.style.display = "none"
     confirmNo.style.display = "none"
 
