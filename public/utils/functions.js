@@ -1,4 +1,4 @@
-/** 
+/**
  * @typedef {object} TExtension
  * @property {string} description
  * @property {boolean} enabled
@@ -23,7 +23,7 @@
 
 /**
  * Disables all Extensions from a given Array of objects.
- * @param {Object[]} extensionsList 
+ * @param {Object[]} extensionsList
  */
 const disableExtensions = (extensionList) => {
   if (!extensionList?.length) {
@@ -31,9 +31,9 @@ const disableExtensions = (extensionList) => {
   }
 
   for (const ext of extensionList) {
-      // if extension isn't itself then disable the extension
+      // only disable other extensions and skip themes
 
-      if (ext.id !== chrome.runtime.id) {
+      if (ext.id !== chrome.runtime.id && ext.type !== "theme") {
           // disable each extension
           chrome.management.setEnabled(ext.id, false)
       }
@@ -57,13 +57,13 @@ const enableExtensions = (extensionList) => {
 }
 
 /**
- * 
+ *
  * @param
   * @returns {Object} returns an object with enabledExtensions and disabledExtensions
  */
 
 const getExtensionStateById = (extensionList) => {
-  
+
   const enabledExts = []
   const disabledExts = []
   for (const ext of extensionList) {
@@ -100,7 +100,7 @@ const updateIconState = () => {
 }
 
 /**
- * 
+ *
  * Debounce a function with certain amount of MS
  */
 
