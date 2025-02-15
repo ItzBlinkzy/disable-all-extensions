@@ -9,35 +9,56 @@
     <title>Whitelist Extensions</title>
   </head>
   <body>
-    <h1>Manage Your Whitelisted Extensions</h1>
-    <div>
-      <p>
-        If you're encountering issues with an unfamiliar extension, you can enable
-        <a href="./isolation.html"><span id="isolation">Isolation Mode</span></a>
-        for further control.
-      </p>
-    </div>
-    <p>
-      This page allows you to whitelist extensions and keep them running
-      <strong>Always On</strong>.
-    </p>
-    <p>
-      You can whitelist specific extensions by toggling the switch. When the switch
-      is on, "<strong>Disable All Extensions</strong>" will not disable the extension.
-    </p>
-    <br />
-    <h2>Extensions</h2>
-    <div id="extension-list">
-      <!-- Template for Extensions -->
-      <!--
-      <div class="item">
-        <div class="toggle-pill-bw">
-          <input type="checkbox" id="extensionidhere" name="check">
-          <label for="extensionidhere"></label>
-        </div>
-        <p>Extension Name Here</p>
+    <main class="container">
+      <h1>Manage Your Whitelisted Extensions</h1>
+      <div class="info-card">
+        <p>
+          This page allows you to whitelist extensions and keep them running
+          <strong>Always On</strong>.
+        </p>
+        <p>
+          You can whitelist specific extensions by toggling the switch.
+        </p>
+        <p>
+          When the switch
+          is on, "<strong>Disable All Extensions</strong>" will not disable the extension.
+        </p>
       </div>
-      -->
-    </div>
+      <div class="info-card">
+        <p>
+          If you're encountering issues with an extension causing you problems, you can enable
+          <a href="./isolation.html"><span id="isolation">Isolation Mode</span></a>
+          to find it.
+        </p>
+      </div>
+      <section class="extensions-section">
+        <div class="section-header">
+          <h2>Extensions</h2>
+          <div class="search-container">
+            <input
+              type="text"
+              id="extension-search"
+              placeholder="Search extensions..."
+              aria-label="Search extensions"
+            >
+            <div class="search-icon">🔍</div>
+          </div>
+        </div>
+        <div id="extension-list">
+          <!-- Template for Extensions -->
+          <!--
+          <div class="extension-item">
+            <div class="extension-content">
+              <p class="extension-name">Extension Name Here</p>
+              <div class="toggle-pill-bw">
+                <input type="checkbox" id="extensionidhere" name="check">
+                <label for="extensionidhere"></label>
+              </div>
+            </div>
+          </div>
+          -->
+        </div>
+      </section>
+    </main>
   </body>
 </html>
