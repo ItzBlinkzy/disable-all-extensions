@@ -106,7 +106,9 @@ const handleClick = async (e) => {
                 contentDiv.appendChild(infoContainer)
                 contentDiv.appendChild(div2)
                 div.appendChild(contentDiv)
-                extensionElement.appendChild(div)            }        }
+                extensionElement.appendChild(div)
+            }
+        }
     })
 })()
 document.getElementById('extension-search').addEventListener('input', (e) => {
