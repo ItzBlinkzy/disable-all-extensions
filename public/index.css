@@ -52,6 +52,12 @@ h1 {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+
+.info-card p + p {
+  margin-top: 0.75rem;
+}
+
+
 .extensions-section {
   margin-top: 2rem;
 }
