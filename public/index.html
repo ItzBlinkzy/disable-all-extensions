@@ -13,13 +13,6 @@
       <h1>Manage Your Whitelisted Extensions</h1>
       <div class="info-card">
         <p>
-          If you're encountering issues with an unfamiliar extension, you can enable
-          <a href="./isolation.html"><span id="isolation">Isolation Mode</span></a>
-          to find the extension.
-        </p>
-      </div>
-      <div class="info-card">
-        <p>
           This page allows you to whitelist extensions and keep them running
           <strong>Always On</strong>.
         </p>
@@ -31,8 +24,26 @@
           is on, "<strong>Disable All Extensions</strong>" will not disable the extension.
         </p>
       </div>
+      <div class="info-card">
+        <p>
+          If you're encountering issues with an extension causing you problems, you can enable
+          <a href="./isolation.html"><span id="isolation">Isolation Mode</span></a>
+          to find it.
+        </p>
+      </div>
       <section class="extensions-section">
-        <h2>Extensions</h2>
+        <div class="section-header">
+          <h2>Extensions</h2>
+          <div class="search-container">
+            <input
+              type="text"
+              id="extension-search"
+              placeholder="Search extensions..."
+              aria-label="Search extensions"
+            >
+            <div class="search-icon">🔍</div>
+          </div>
+        </div>
         <div id="extension-list">
           <!-- Template for Extensions -->
           <!--

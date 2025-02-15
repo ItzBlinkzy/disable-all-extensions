@@ -39,7 +39,7 @@ body {
   padding: 0 1rem;
 }
 
-h1, h2 {
+h1 {
   color: var(--primary-red);
   margin-bottom: 1.5rem;
 }
@@ -161,4 +161,40 @@ h1, h2 {
 
 .item p {
   padding-top: 0.3em;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.search-container {
+  position: relative;
+  width: 300px;
+}
+
+.search-container input {
+  width: 100%;
+  padding: 8px 16px;
+  padding-right: 40px;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  font-size: 0.9rem;
+  transition: border-color 0.2s ease;
+}
+
+.search-container input:focus {
+  outline: none;
+  border-color: var(--primary-red);
+}
+
+.search-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+  pointer-events: none;
 }

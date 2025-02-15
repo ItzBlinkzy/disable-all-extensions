@@ -1,3 +1,17 @@
+// Search for extensions by name.
+const searchExtensions = (searchTerm) => {
+  const extensionItems = document.querySelectorAll('.extension-item');
+  searchTerm = searchTerm.toLowerCase();
+
+  extensionItems.forEach(item => {
+    const extensionName = item.querySelector('.extension-name').textContent.toLowerCase();
+    if (extensionName.includes(searchTerm)) {
+      item.style.display = '';
+    } else {
+      item.style.display = 'none';
+    }
+  });
+};
 // Listener for when any checkbox is clicked.
 const handleClick = async (e) => {
     // e.preventDefault()
@@ -95,3 +109,6 @@ const handleClick = async (e) => {
                 extensionElement.appendChild(div)            }        }
     })
 })()
+document.getElementById('extension-search').addEventListener('input', (e) => {
+  searchExtensions(e.target.value);
+});
