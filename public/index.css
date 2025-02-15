@@ -1,4 +1,18 @@
-@import url("https://fonts.googleapis.com/css?family=Roboto");
+@import url("https://fonts.googleapis.com/css?family=Roboto:400,500,700");
+
+:root {
+  --primary-red: rgba(255, 8, 8, 0.781);
+  --bg-color: rgba(255, 216, 216, 0.493);
+  --card-bg: rgba(255, 255, 255, 0.9);
+  --toggle-off: #50565a;
+  --toggle-on: #47cf73;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 h1,
 h2,
@@ -6,19 +20,105 @@ h3,
 h4,
 h5,
 h6 {
-  color: rgba(255, 8, 8, 0.781);
+  color: var(--primary-red);
   margin: 0;
   padding: 0;
 }
 
 body {
-  background-color: rgba(255, 216, 216, 0.493);
+  background-color: var(--bg-color);
   font-family: "Roboto", sans-serif;
-  font-size: 1em;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
 }
 
-input[type="checkbox"] {
+.container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+h1, h2 {
+  color: var(--primary-red);
+  margin-bottom: 1.5rem;
+}
+
+.info-card {
+  background-color: var(--card-bg);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.extensions-section {
+  margin-top: 2rem;
+}
+
+#extension-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+  padding: 1rem 0;
+}
+
+.extension-item {
+  background-color: var(--card-bg);
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.extension-item:hover {
+  transform: translateY(-2px);
+}
+
+.extension-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 1rem;
+}
+
+.extension-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.extension-icon {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.extension-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+.extension-name {
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin: 0;
+  flex-grow: 1;
+}
+
+.toggle-pill-bw {
+  min-width: 3em;
+}
+
+.toggle-pill-bw input[type="checkbox"] {
   appearance: none;
+  display: none;
 }
 
 .toggle-pill-bw input[type="checkbox"] + label {
@@ -26,18 +126,14 @@ input[type="checkbox"] {
   position: relative;
   width: 3em;
   height: 1.6em;
-  margin-bottom: 20px;
-  background: #50565a;
+  background: var(--toggle-off);
   border-radius: 1em;
-  border: 1px solid black;
   cursor: pointer;
-  -webkit-transition: background 0.1s ease-in-out;
-  transition: background 0.1s ease-in-out;
+  transition: background 0.2s ease-in-out;
 }
 
 .toggle-pill-bw input[type="checkbox"]:checked + label {
-  background: #47cf73;
-  transition: background 0.1s ease-in-out;
+  background: var(--toggle-on);
 }
 
 .toggle-pill-bw input[type="checkbox"] + label:before {
@@ -45,29 +141,18 @@ input[type="checkbox"] {
   display: block;
   width: 1.2em;
   height: 1.2em;
-  border-radius: 1em;
-  background: #f7f2f2;
+  border-radius: 50%;
+  background: #fff;
   position: absolute;
   left: 0.2em;
   top: 0.2em;
-  -webkit-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
 }
+
 .toggle-pill-bw input[type="checkbox"]:checked + label:before {
   left: 1.6em;
-  -webkit-transform: rotate(45deg);
-  transform: rotate(45deg);
-}
-.toggle-pill-bw {
-  height: 3.5em;
-  width: 3.5em;
 }
 
-.toggle-pill-bw .test {
-  justify-content: center;
-  background-color: red;
-  align-items: center;
-}
 .item {
   display: flex;
   margin-top: 0 0 0 0;
@@ -76,9 +161,4 @@ input[type="checkbox"] {
 
 .item p {
   padding-top: 0.3em;
-}
-
-#extension-list {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
 }

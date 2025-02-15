@@ -1,9 +1,13 @@
 {
   "name": "Disable All Extensions",
   "manifest_version": 3,
-  "version": "1.5.8",
+  "version": "1.6",
   "description": "Disable/Enable your chrome extensions with the click of a button.",
-  "permissions": ["contextMenus", "management", "storage"],
+  "permissions": [
+    "contextMenus",
+    "management",
+    "storage"
+  ],
   "background": {
     "service_worker": "./src/background.js",
     "type": "module"

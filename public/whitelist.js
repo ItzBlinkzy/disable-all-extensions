@@ -10,7 +10,7 @@ const handleClick = async (e) => {
 
         // Enable the extension if it's disabled.
         chrome.management.setEnabled(extensionId, true)
-        
+
         // Save the extension id that was checked.
         if (checkedVal) {
             alwaysOn.push(extensionId)
@@ -45,7 +45,27 @@ const handleClick = async (e) => {
                 // Add input element to this div^ element
 
                 const div = document.createElement("div")
-                div.classList.add("item")
+                div.classList.add("extension-item")
+
+                const contentDiv = document.createElement("div")
+                contentDiv.classList.add("extension-content")
+
+                const iconContainer = document.createElement("div")
+                iconContainer.classList.add("extension-icon")
+                const iconImg = document.createElement("img")
+                iconImg.src = ext?.icons?.[0]?.url || "./images/chrome-32.png"
+                iconImg.alt = `${ext.name} icon`
+                iconContainer.appendChild(iconImg)
+
+                const extNamePTag = document.createElement("p")
+                extNamePTag.classList.add("extension-name")
+                const textToAdd = document.createTextNode(ext.name)
+                extNamePTag.appendChild(textToAdd)
+
+                const infoContainer = document.createElement("div")
+                infoContainer.classList.add("extension-info")
+                infoContainer.appendChild(iconContainer)
+                infoContainer.appendChild(extNamePTag)
 
                 const div2 = document.createElement("div")
                 div2.classList.add("toggle-pill-bw")
@@ -66,20 +86,12 @@ const handleClick = async (e) => {
 
                 const labelEl = document.createElement("label")
                 labelEl.setAttribute("for", ext.id)
-                
                 div2.appendChild(inputEl)
                 div2.appendChild(labelEl)
 
-                const extNamePTag = document.createElement("p")
-                const textToAdd = document.createTextNode(ext.name)
-                extNamePTag.appendChild(textToAdd)
-
-                div.appendChild(div2)
-                div.appendChild(extNamePTag)
-                extensionElement.appendChild(div)
-            }
-        }
+                contentDiv.appendChild(infoContainer)
+                contentDiv.appendChild(div2)
+                div.appendChild(contentDiv)
+                extensionElement.appendChild(div)            }        }
     })
-})() 
-
-
+})()
