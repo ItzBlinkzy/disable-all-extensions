@@ -1,4 +1,4 @@
-import { disableExtensions, enableExtensions, updateIconState, getExtensionStateById} from "./utils/functions.js";
+import { disableExtensions, enableExtensions } from "./utils/functions.js";
 
 // Type definitions.
 /**
@@ -28,10 +28,14 @@ import { disableExtensions, enableExtensions, updateIconState, getExtensionState
    *
    * @param {TExtension[]}
    * @param {number} step
-   * @returns {TExtension}
+   * @returns {Promise<TExtension>}
 */
 
 async function isolationMode(extensionList, step=0) {
+  if (!extensionList.length) {
+    return;
+  }
+
   console.log(`Isolation Mode running in step ${step}`)
   // Completed isolation mode
   if (extensionList.length == 1) {
@@ -143,46 +147,80 @@ const dialogMessage = document.getElementById("dialog-message");
 const confirmButtons = document.getElementById("confirm-buttons")
 const confirmYes = document.getElementById("confirm-yes")
 const confirmNo = document.getElementById("confirm-no")
+const isolationCheckbox = document.getElementById("isolation-checkbox")
+const checkboxContainer = document.querySelector(".checkbox-container");
 
 // Get all extensions excluding itself.
-const extensions = (await chrome.management.getAll()).filter(ext => ext.id !== chrome.runtime.id)
-// Get currently enabled and disabled extensions revert to original state (excluding itself).
-const {enabledExts, disabledExts} = getExtensionStateById(extensions)
+const getAllExtensions = async () => {
+  return (await chrome.management.getAll()).filter(ext => ext.id !== chrome.runtime.id)
+}
+
 // Set extensions state to local storage in the case the window is closed
-await chrome.storage.sync.set({lastEnabledExts: enabledExts, lastDisabledExts: disabledExts})
+// await chrome.storage.sync.set({lastEnabledExts: enabledExts, lastDisabledExts: disabledExts})
+const revertEnabledExts = []
 
 isolationBtn.addEventListener("click", async () => {
     confirmYes.textContent = "Yes"
     isolationBtn.style.display = "none"
+    checkboxContainer.style.display = "none";
     confirmButtons.style.display = "flex"
     dialogBox.style.display = "block"
     confirmYes.style.display = "block"
     confirmNo.style.display = "block"
 
     console.log("Starting isolation Mode.")
-    const result = await isolationMode(extensions)
+
+    let result;
+    if (isolationCheckbox.checked) {
+      result = await isolationMode(await getAllExtensions())
+    }
+    else {
+      const allExts = await getAllExtensions();
+      const activeExtensions = allExts.filter(ext => ext.enabled);
+      // Create a deep copy of the extension IDs or relevant properties
+      const originalState = activeExtensions.map(ext => ({
+        id: ext.id,
+        name: ext.name,
+        enabled: ext.enabled
+      }));
+
+      result = await isolationMode(activeExtensions);
+      revertEnabledExts.push(...originalState);
+    }
+
+    const spanExtensionResult = `<span>
+                            <p>The extension possibly causing issues is:
+                            <img src=${result?.icons[0]?.url || "./images/chrome-32.png"} width="25" height="25">
+                            <strong>${result?.name}</strong>
+                            </p>
+                        </span>`
+
+    const spanNoExtensionResult = `<span>
+                            <p>You do not have any extensions enabled, click the checkbox to include all extensions which may be disabled.
+                            </p>
+                        </span>`
 
     console.log("Isolation Mode complete.")
-    console.log("Found problematic extension", result.name)
+    console.log("Found problematic extension", result?.name)
 
     customDialog.style.display = "block";
     confirmButtons.style.display = "flex"
 
     dialogMessage.innerHTML = `
     <div>
-        <span>
-          <p>The extension possibly causing issues is: 
-          <img src=${result?.icons[0]?.url || "./images/chrome-32.png"} width="25" height="25">
-          <strong>${result.name}</strong>
-          </p>
-        </span>
+    ${result ? spanExtensionResult : spanNoExtensionResult}
     </div>`
 
     isolationBtn.style.display = "block"
-
+    checkboxContainer.style.display = "flex";
     confirmYes.style.display = "none"
     confirmNo.style.display = "none"
 
-    enableExtensions(enabledExts)
-    disableExtensions(disabledExts)
+    console.log("Reverting to original state. ENABLING BACK FOLLOWING EXTENSIOJNS", revertEnabledExts)
+
+    // disable all extensions
+    disableExtensions(await getAllExtensions())
+    // re-enable the ones that were previously enabled before isolation mode
+    enableExtensions(revertEnabledExts)
+
 })
