@@ -87,7 +87,7 @@ button:hover {
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
-  margin: 1rem 0;
+  margin: 0;
 }
 
 #isolation-btn:hover {
@@ -157,4 +157,72 @@ button:hover {
   display: flex;
   flex-direction: column;
   gap: 3px;
+}
+
+.checkbox-container {
+  margin: 0;
+}
+
+.modern-checkbox {
+  display: flex;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  font-size: 0.95rem;
+  user-select: none;
+  gap: 0.75rem;
+}
+
+.modern-checkbox input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkmark {
+  position: relative;
+  height: 20px;
+  width: 20px;
+  background-color: #fff;
+  border: 2px solid var(--primary-red-light);
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.modern-checkbox:hover input ~ .checkmark {
+  background-color: rgba(255, 71, 87, 0.1);
+}
+
+.modern-checkbox input:checked ~ .checkmark {
+  background-color: var(--primary-red-light);
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+  left: 6px;
+  top: 2px;
+  width: 4px;
+  height: 9px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.modern-checkbox input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.label-text {
+  color: #333;
+}
+
+.controls-container {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin: 1rem 0;
 }

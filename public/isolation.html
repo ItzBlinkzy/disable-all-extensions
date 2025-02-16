@@ -20,7 +20,16 @@
         <p>After each test, you'll provide feedback on your experience with the currently enabled extensions.
           The process will continue until one extension remains.</p>
       </div>
-      <button id="isolation-btn">Start Isolation Mode</button>
+      <div class="controls-container">
+        <button id="isolation-btn">Start Isolation Mode</button>
+        <div class="checkbox-container">
+          <label class="modern-checkbox">
+            <input type="checkbox" id="isolation-checkbox">
+            <span class="checkmark"></span>
+            <span class="label-text">Include currently disabled extensions</span>
+          </label>
+        </div>
+      </div>
       <div id="custom-dialog">
         <div id="dialog-box" style="display: none;">
           <p id="dialog-message"></p>
