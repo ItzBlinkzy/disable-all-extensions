@@ -43,7 +43,7 @@ chrome.storage.onChanged.addListener(async (changes, namespace) => {
 
   //     console.log(`Size of JSON data for key "${key}":`, keyJsonSize / 1000, 'KB');
   //   }
-  // });  
+  // });
 });
 
 
@@ -52,32 +52,32 @@ const handleToggleExtensions = () => {
     chrome.storage.sync.get(async ({isDisablingOtherExts, lastEnabledExts}) => {
         // In the case that this property is undefined, set to empty array.
         alwaysOn = alwaysOn || []
-        // Get information on all the currently added extensions.	
-        const extensionList = await chrome.management.getAll()	
+        // Get information on all the currently added extensions.
+        const extensionList = await chrome.management.getAll()
         // Extensions that are not whitelisted.
         const notWhitelistedExts = extensionList.filter(e => !alwaysOn.includes(e.id))
-        // Divide them into enabled and disabled extensions.	
-        const {enabledExts, disabledExts} = getExtensionStateById(extensionList)	
-        // If this extension is currently disabling other extensions.	
-        if (isDisablingOtherExts) {	
-                enableExtensions(lastEnabledExts)	
-                // Save the state in the case extension is turned off.	
-                chrome.storage.sync.set({isDisablingOtherExts: false}, () => {})	
-        
-                // change icon to OFF state	
-                updateIconState()	
+        // Divide them into enabled and disabled extensions.
+        const {enabledExts, disabledExts} = getExtensionStateById(extensionList)
+        // If this extension is currently disabling other extensions.
+        if (isDisablingOtherExts) {
+                enableExtensions(lastEnabledExts)
+                // Save the state in the case extension is turned off.
+                chrome.storage.sync.set({isDisablingOtherExts: false}, () => {})
+
+                // change icon to OFF state
+                updateIconState()
         }
 
-    
+
         else {
-    
+
             // Save the currently enabled extensions before disabling all extensions.
-            chrome.storage.sync.set({lastEnabledExts: enabledExts}, () => { 
-                disableExtensions(notWhitelistedExts) 
+            chrome.storage.sync.set({lastEnabledExts: enabledExts}, () => {
+                disableExtensions(notWhitelistedExts)
 
                 // Save the state in the case extension is turned off.
                 chrome.storage.sync.set({isDisablingOtherExts: true})
-                
+
                 // change icon to ON state
                 updateIconState()
             })
@@ -98,7 +98,7 @@ chrome.runtime.onInstalled.addListener(() => {
         title: "Open whitelist",
         contexts: ["all"], // change to only work on toolbar
         id: CTX_MENU_IDS.whitelistID,
-    })   
+    })
 
     chrome.contextMenus.create({
       title: "Isolation Mode",
@@ -111,7 +111,7 @@ chrome.runtime.onInstalled.addListener(() => {
 // Handling contextMenu clicks
 chrome.contextMenus.onClicked.addListener((data) => {
     const {menuItemId, pageUrl} = data
-    
+
     if (menuItemId === CTX_MENU_IDS.whitelistID) {
         chrome.tabs.create({
             url: "../public/index.html"
@@ -138,3 +138,9 @@ chrome.tabs.onRemoved.addListener(async (tabId, removeInfo) => {
     disableExtensions(disabledExts)
   }
  })
+// UNINSTALL URL
+chrome.runtime.setUninstallURL('https://forms.gle/67uQG24BVd9jPkbF6', () => {
+  if (chrome?.runtime?.lastError) {
+    console.error("Error setting uninstall URL", chrome?.runtime?.lastError)
+  }
+})
