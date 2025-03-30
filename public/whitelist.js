@@ -34,12 +34,11 @@ const handleClick = async (e) => {
 
         else {
             // Find the extension id that was unchecked and remove it from storage.
+            // On next disabling the extension will not be in the whitelist.
             const extIndex = alwaysOn.findIndex(id => id === extensionId)
             alwaysOn.splice(extIndex, 1)
             chrome.storage.sync.set({alwaysOn: alwaysOn})
 
-            // Disable the extension in the case it's currently on.
-            chrome.management.setEnabled(extensionId, false)
         }
     })
 }
