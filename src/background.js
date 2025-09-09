@@ -95,13 +95,13 @@ chrome.action.onClicked.addListener(() => {
 // Create the context menu once the extension is installed.
 chrome.runtime.onInstalled.addListener(() => {
     chrome.contextMenus.create({
-        title: "Open whitelist",
+        title: "⭐ Whitelist",
         contexts: ["action"],
         id: CTX_MENU_IDS.whitelistID,
     })
 
     chrome.contextMenus.create({
-      title: "Isolation Mode",
+      title: "🔍 Isolation Mode",
       contexts: ["action"],
       id: CTX_MENU_IDS.isolationID
     })
