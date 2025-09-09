@@ -96,13 +96,13 @@ chrome.action.onClicked.addListener(() => {
 chrome.runtime.onInstalled.addListener(() => {
     chrome.contextMenus.create({
         title: "Open whitelist",
-        contexts: ["all"], // change to only work on toolbar
+        contexts: ["action"],
         id: CTX_MENU_IDS.whitelistID,
     })
 
     chrome.contextMenus.create({
       title: "Isolation Mode",
-      contexts: ["all"],
+      contexts: ["action"],
       id: CTX_MENU_IDS.isolationID
     })
 })
@@ -144,3 +144,33 @@ chrome.runtime.setUninstallURL('https://forms.gle/67uQG24BVd9jPkbF6', () => {
     console.error("Error setting uninstall URL", chrome?.runtime?.lastError)
   }
 })
+
+chrome.storage.sync.get("disableContextMenu", ({ disableContextMenu }) => {
+  if (disableContextMenu) {
+    chrome.contextMenus.removeAll();
+  }
+});
+
+// Listen for changes to the disableContextMenu setting
+chrome.storage.onChanged.addListener((changes, namespace) => {
+  if (changes.disableContextMenu) {
+    const { newValue } = changes.disableContextMenu;
+    if (newValue) {
+      // Remove all context menus
+      chrome.contextMenus.removeAll();
+    } else {
+      // Recreate context menus
+      chrome.contextMenus.create({
+        title: "Open whitelist",
+        contexts: ["all"],
+        id: CTX_MENU_IDS.whitelistID,
+      });
+
+      chrome.contextMenus.create({
+        title: "Isolation Mode",
+        contexts: ["all"],
+        id: CTX_MENU_IDS.isolationID,
+      });
+    }
+  }
+});

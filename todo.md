@@ -1,1 +1,0 @@
-[ ] Find a way to get all chrome extensions once and update on startup or similar as (Disabling > 10 extensions make its slow and sometimes lose saved data)
