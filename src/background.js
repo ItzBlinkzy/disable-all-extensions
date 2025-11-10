@@ -105,6 +105,11 @@ chrome.runtime.onInstalled.addListener(() => {
       contexts: ["action"],
       id: CTX_MENU_IDS.isolationID
     })
+
+    // Open onboarding page on first install
+    chrome.tabs.create({
+        url: "../public/onboarding.html"
+    })
 })
 
 
