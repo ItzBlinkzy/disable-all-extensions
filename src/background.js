@@ -93,7 +93,7 @@ chrome.action.onClicked.addListener(() => {
 
 
 // Create the context menu once the extension is installed.
-chrome.runtime.onInstalled.addListener(() => {
+chrome.runtime.onInstalled.addListener((details) => {
     chrome.contextMenus.create({
         title: "⭐ Whitelist",
         contexts: ["action"],
@@ -106,10 +106,13 @@ chrome.runtime.onInstalled.addListener(() => {
       id: CTX_MENU_IDS.isolationID
     })
 
-    // Open onboarding page on first install
+  // Open onboarding page only on a fresh install.
+  if (details && details.reason === 'install') {
     chrome.tabs.create({
-        url: "../public/onboarding.html"
+      url: "../public/onboarding.html",
+      active: false
     })
+  }
 })
 
 
